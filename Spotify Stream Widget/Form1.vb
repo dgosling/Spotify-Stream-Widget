@@ -1,91 +1,100 @@
-﻿Imports System.IO
-Imports System.Drawing.Imaging
-
+﻿Imports System.Drawing.Imaging
 Public Class Form1
-    WithEvents MasterButton As New Button With {.Text = "Start", .Size = New Size(75, 25)}
-    WithEvents NUD As New NumericUpDown With {.Minimum = 1, .Maximum = 500, .Value = 5, .Size = New Size(75, 25)}
-    WithEvents Timer As New Timer With {.Interval = 5, .Enabled = False}
-    Dim animatedImage As Bitmap
-    Dim ImageCount As Integer
-    Dim ImageWidth As Integer
-    Dim ImageHeight As Integer
-    Dim ImagePath As String = "C:\Users\danie_000\Source\Repos\Spotify-Stream-Widget\Spotify Stream Widget\bin\Debug\test\"
-    Dim AnimatedGifPath As String = "C:\Users\danie_000\Source\Repos\Spotify-Stream-Widget\Spotify Stream Widget\bin\Debug\hat.gif"
-    Dim PF As PointF
-    Dim Index As Integer
-    Private Function DisassembleAniGif(GifFile As Bitmap) As Integer
-        Dim oDimension As New FrameDimension(GifFile.FrameDimensionsList(0))
-        Dim FrameCount As Integer = animatedImage.GetFrameCount(oDimension)
-        If FrameCount = 0 Then
-            Return FrameCount
-        End If
-        ImageCount = FrameCount
+    'play gif animation by stripping frames
+    Private WithEvents Timer1 As New System.Windows.Forms.Timer With {.Interval = 500}
+    Private BitMaps As New List(Of Bitmap)
+    Public imagecount As Integer = 0
 
-        GifFile.SelectActiveFrame(oDimension, 0)
-        Using AniGifFrame As New Bitmap(GifFile) ' one time just to get dimensions
-            ImageWidth = AniGifFrame.Width
-            ImageHeight = AniGifFrame.Height
-        End Using
 
-        For i As Integer = 0 To FrameCount - 1 ' process all if needed to get images saved
-            GifFile.SelectActiveFrame(oDimension, i)
-            If Not File.Exists(ImagePath & i.ToString("0000") & ".jpg") Then
-                Using AniGifFrame As New Bitmap(animatedImage)
-                    AniGifFrame.Save(ImagePath & i.ToString("0000") & ".jpg", ImageFormat.Jpeg)
-                End Using
-            End If
-        Next
-        Index = 0
-        Return FrameCount
-    End Function
-
-    Private Sub Form1_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
-        If Not File.Exists(AnimatedGifPath) Then
-            MessageBox.Show(Me, "Cannot Find the Animated GIF", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End
-        End If
-        animatedImage = Image.FromFile(AnimatedGifPath)
-        If DisassembleAniGif(animatedImage) = 0 Then
-            MessageBox.Show(Me, "Found the Animated GIF, but it has no frames", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End
-        End If
-        MasterButton.Left = ImageWidth + 20
-        MasterButton.Top = 10
-        Me.Controls.Add(MasterButton)
-        NUD.Left = ImageWidth + 20
-        NUD.Top = MasterButton.Bottom + 10
-        Me.Controls.Add(NUD)
-        MasterButton.Text = "Start"
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.DoubleBuffered = True
-        Me.Width = ImageWidth + NUD.Width + 100
-        Me.Height = ImageHeight + 100
-        PF = New PointF(Me.ClientRectangle.Left, Me.ClientRectangle.Top)
+
+        'get images from gif file
+        Using bm As New Bitmap(Application.StartupPath + "/hat.gif")
+            Dim fd As New FrameDimension(bm.FrameDimensionsList(0))
+            Dim framecount As Integer = bm.GetFrameCount(fd)
+            If framecount > 1 Then
+                For Each bmp As Bitmap In BitMaps
+                    bmp.Dispose()
+
+                Next
+                BitMaps.Clear()
+                For i As Integer = 0 To framecount - 1
+                    bm.SelectActiveFrame(fd, i)
+                    BitMaps.Add(New Bitmap(bm))
+                    Console.WriteLine("added frame")
+                Next
+            End If
+            fd = Nothing
+        End Using
+    End Sub
+    Public Sub Test(sender As Object, e As EventArgs) Handles Timer1.Tick
+        Timer1.Start()
+        Console.WriteLine("started timer")
+    End Sub
+    Public Sub Timerint(sender As Object, e As EventArgs) Handles Timer1.Tick
+        Dim cal As Decimal
+
+        cal = 60000 / Viewer._tempo
+        Timer1.Interval = Math.Round(cal / 15)
+        Console.WriteLine("set interval")
+    End Sub
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+
+        imagecount += 1
+        If imagecount > BitMaps.Count - 1 Then imagecount = 0
+        PictureBox1.Invalidate()
     End Sub
 
-    Private Sub MasterButton_Click(sender As System.Object, e As System.EventArgs) Handles MasterButton.Click
-        If MasterButton.Text = "Stop" Then
-            Timer.Enabled = False
-            MasterButton.Text = "Start"
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        If Button1.Text = "Stop" Then
+            Timer1.Stop()
+            Button1.Text = "Start"
         Else
-            Timer.Enabled = True
-            MasterButton.Text = "Stop"
+            'Begin the animation.
+            Timer1.Start()
+            Button1.Text = "Stop"
         End If
     End Sub
 
-    Private Sub NUD_ValueChanged(sender As Object, e As EventArgs) Handles NUD.ValueChanged
-        Timer.Interval = NUD.Value
+    Private Sub PictureBox1_Paint(sender As Object, e As PaintEventArgs) Handles PictureBox1.Paint
+        'draw the current frame
+        e.Graphics.DrawImage(BitMaps(imagecount), 0, 0, PictureBox1.Size.Width, PictureBox1.Size.Height)
+        Console.WriteLine("drew image")
+
+    End Sub
+#Region "Form Dragging Function"
+    'original: https://stackoverflow.com/a/24235555/9290012
+    Dim _drag As Boolean
+    Dim _mousex As Integer
+    Dim _mousey As Integer
+
+    Private Sub MoveForm_MouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles MyBase.MouseDown, PictureBox1.MouseDown
+        _drag = True
+        _mousex = Windows.Forms.Cursor.Position.X - Me.Left
+        _mousey = Windows.Forms.Cursor.Position.Y - Me.Top
     End Sub
 
-    Private Sub Timer_Tick(sender As Object, e As EventArgs) Handles Timer.Tick
-        Me.Invalidate()
-        Index += 1
-        Me.Text = ImagePath & Index.ToString("0000") & ".jpg"
-        If Index >= 24 Then
-            Index = 0
+    Private Sub MoveForm_MouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles MyBase.MouseUp, PictureBox1.MouseUp
+        _drag = False
+    End Sub
+
+    Private Sub MoveForm_MouseMove(ByVal sender As Object, ByVal e As MouseEventArgs) Handles MyBase.MouseMove, PictureBox1.MouseMove
+        If _drag Then
+            Me.Top = Windows.Forms.Cursor.Position.Y - _mousey
+            Me.Left = Windows.Forms.Cursor.Position.X - _mousex
         End If
     End Sub
+#End Region
 
-    Private Sub Form1_Paint(sender As Object, e As PaintEventArgs) Handles Me.Paint
-        e.Graphics.DrawImage(Image.FromFile(ImagePath & Index.ToString("0000") & ".jpg"), PF)
+    Private Sub CloseApp(sender As Object, e As EventArgs) Handles Me.FormClosing
+        Application.Exit()
+    End Sub
+
+    'the viewer need to be in normal state, even if the configurator is hidden.
+    Private Sub CatchMinimized(sender As Object, e As EventArgs) Handles Me.Resize
+        If Me.WindowState = FormWindowState.Minimized Then
+            Me.WindowState = FormWindowState.Normal
+        End If
     End Sub
 End Class

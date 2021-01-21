@@ -22,7 +22,30 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.Button1 = New System.Windows.Forms.Button()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.Location = New System.Drawing.Point(0, 0)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(430, 593)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.PictureBox1.TabIndex = 0
+        Me.PictureBox1.TabStop = False
+        Me.PictureBox1.UseWaitCursor = True
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(178, 611)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.TabIndex = 1
+        Me.Button1.Text = "Button1"
+        Me.Button1.UseVisualStyleBackColor = True
         '
         'Form1
         '
@@ -30,13 +53,23 @@ Partial Class Form1
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSize = True
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.ClientSize = New System.Drawing.Size(436, 598)
+        Me.ClientSize = New System.Drawing.Size(436, 648)
+        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.PictureBox1)
+        Me.DisplayHeader = False
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Form1"
+        Me.Padding = New System.Windows.Forms.Padding(20, 30, 20, 20)
         Me.Resizable = False
         Me.Style = MetroFramework.MetroColorStyle.Green
         Me.Theme = MetroFramework.MetroThemeStyle.Dark
         Me.UseWaitCursor = True
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
+
+    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents Button1 As Button
 End Class

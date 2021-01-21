@@ -21,6 +21,7 @@ Public Class Viewer
     Dim _previousToken As Token
     Public _tempo As Single = 120
     Dim _audiof As AudioFeatures
+
     'Dim _pict As PictureBox
     'Dim WithEvents Timer1 As New System.Windows.Forms.Timer With {.Interval = 50}
     'Dim _pictTime As Decimal
