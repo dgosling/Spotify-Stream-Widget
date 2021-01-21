@@ -121,8 +121,8 @@
     <value>142, 17</value>
   </metadata>
   <data name="CreditsText.Text" xml:space="preserve">
-    <value>Made by Marco Sadowski
-
+    <value>Originally Made by Marco Sadowski
+Modified by Dgosling
 This application use the SpotifyAPI-NET which is licensed under the GNU Lesser General Public License v3.0 
 https://github.com/JohnnyCrazy/SpotifyAPI-NET
 

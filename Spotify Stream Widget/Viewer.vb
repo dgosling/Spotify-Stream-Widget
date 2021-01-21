@@ -56,6 +56,7 @@ Public Class Viewer
 
 
     'The Load Event apply the user settings and the event handler for the spotify API
+
     Private Sub Viewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ApplyProgressBarStyle()
         ApplySize()

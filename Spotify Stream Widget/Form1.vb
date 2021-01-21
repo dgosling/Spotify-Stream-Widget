@@ -1,7 +1,7 @@
 ﻿Imports System.Drawing.Imaging
 Public Class Form1
     'play gif animation by stripping frames
-    Private WithEvents Timer1 As New System.Windows.Forms.Timer With {.Interval = 500}
+    Public WithEvents Timer1 As New System.Windows.Forms.Timer With {.Interval = 500}
     Private BitMaps As New List(Of Bitmap)
     Public imagecount As Integer = 0
 
@@ -22,22 +22,23 @@ Public Class Form1
                 For i As Integer = 0 To framecount - 1
                     bm.SelectActiveFrame(fd, i)
                     BitMaps.Add(New Bitmap(bm))
-                    Console.WriteLine("added frame")
+                    ' Console.WriteLine("added frame")
                 Next
             End If
             fd = Nothing
+
         End Using
     End Sub
     Public Sub Test(sender As Object, e As EventArgs) Handles Timer1.Tick
         Timer1.Start()
-        Console.WriteLine("started timer")
+        'Console.WriteLine("started timer")
     End Sub
     Public Sub Timerint(sender As Object, e As EventArgs) Handles Timer1.Tick
         Dim cal As Decimal
 
         cal = 60000 / Viewer._tempo
         Timer1.Interval = Math.Round(cal / 15)
-        Console.WriteLine("set interval")
+        ' Console.WriteLine("set interval")
     End Sub
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
 
@@ -46,21 +47,13 @@ Public Class Form1
         PictureBox1.Invalidate()
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        If Button1.Text = "Stop" Then
-            Timer1.Stop()
-            Button1.Text = "Start"
-        Else
-            'Begin the animation.
-            Timer1.Start()
-            Button1.Text = "Stop"
-        End If
-    End Sub
+
 
     Private Sub PictureBox1_Paint(sender As Object, e As PaintEventArgs) Handles PictureBox1.Paint
         'draw the current frame
         e.Graphics.DrawImage(BitMaps(imagecount), 0, 0, PictureBox1.Size.Width, PictureBox1.Size.Height)
-        Console.WriteLine("drew image")
+
+        'Console.WriteLine("drew image")
 
     End Sub
 #Region "Form Dragging Function"

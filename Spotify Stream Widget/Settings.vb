@@ -24,7 +24,17 @@ Public Class Settings
         ColorStyleBox.Text = My.Settings.Color
         Viewer.Show()
     End Sub
+    Private Sub MetroButton1_Click(sender As Object, e As EventArgs) Handles MetroButton1.Click
+        If MetroButton1.Text = "Stop" Then
+            Form1.Timer1.Stop()
 
+            MetroButton1.Text = "Hat-Kid-Start"
+        Else
+            'Begin the animation.
+            Form1.Timer1.Start()
+            MetroButton1.Text = "Stop"
+        End If
+    End Sub
     'start event
     Private Sub ConnectToSpotify(sender As Object, e As EventArgs) Handles SpotifyConnectBtn.Click
         SpotifyConnectBtn.Enabled = False
@@ -43,7 +53,7 @@ Public Class Settings
         CreditPanel.Visible = False
     End Sub
     Private Sub ReportProblemLink(sender As Object, e As EventArgs) Handles ReportLink.Click
-        Process.Start("https://github.com/MarcoPNS/Spotify-Stream-Widget/issues")
+        Process.Start("https://github.com/dgosling/Spotify-Stream-Widget/issues")
     End Sub
 
     'This is a BackgroundWorker which check for a new version of the app.   
@@ -51,14 +61,14 @@ Public Class Settings
     Private Sub VersionCheck_DoWork(sender As Object, e As ComponentModel.DoWorkEventArgs) Handles VersionCheck.DoWork
         Try
             Dim version As Integer = Int32.Parse(Regex.Replace(ProductVersion, "\D", ""))
-            Dim serverResponse As String = New WebClient().DownloadString("https://raw.githubusercontent.com/MarcoPNS/Spotify-Stream-Widget/master/Release/version.md")
+            Dim serverResponse As String = New WebClient().DownloadString("https://raw.githubusercontent.com/dgosling/Spotify-Stream-Widget/master/Release/version.md")
             If serverResponse.Length = 7 Then
                 Dim onlineVersion As Integer = Int32.Parse(Regex.Replace(serverResponse, "\D", ""))
                 If Not version >= onlineVersion Then
 
                     Dim res As DialogResult = MessageBox.Show("A new version is available! Version " & serverResponse & vbNewLine & "Do you want to check it out? ", "Spotify Stream Widget", MessageBoxButtons.YesNo)
                     If (res = DialogResult.Yes) Then
-                        Process.Start("https://github.com/MarcoPNS/Spotify-Stream-Widget/releases")
+                        Process.Start("https://github.com/dgosling/Spotify-Stream-Widget/releases")
                     End If
                 End If
             Else

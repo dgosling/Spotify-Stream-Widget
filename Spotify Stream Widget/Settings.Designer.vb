@@ -46,6 +46,7 @@ Partial Class Settings
         Me.ExportFolderBtn = New System.Windows.Forms.PictureBox()
         Me.StatusLabel = New MetroFramework.Controls.MetroLabel()
         Me.ToolTips = New System.Windows.Forms.ToolTip(Me.components)
+        Me.MetroButton1 = New MetroFramework.Controls.MetroButton()
         Me.CreditPanel.SuspendLayout()
         CType(Me.ExportFolderBtn, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -69,7 +70,7 @@ Partial Class Settings
         Me.ColorSettingToggle.Size = New System.Drawing.Size(80, 17)
         Me.ColorSettingToggle.Style = MetroFramework.MetroColorStyle.Green
         Me.ColorSettingToggle.TabIndex = 1
-        Me.ColorSettingToggle.Text = "An"
+        Me.ColorSettingToggle.Text = "On"
         Me.ColorSettingToggle.Theme = MetroFramework.MetroThemeStyle.Dark
         Me.ColorSettingToggle.UseSelectable = True
         '
@@ -85,11 +86,13 @@ Partial Class Settings
         '
         'CreditLink
         '
+        Me.CreditLink.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.CreditLink.Location = New System.Drawing.Point(23, 400)
         Me.CreditLink.Name = "CreditLink"
-        Me.CreditLink.Size = New System.Drawing.Size(251, 18)
-        Me.CreditLink.TabIndex = 3
-        Me.CreditLink.Text = "Made by Marco Sadowski"
+        Me.CreditLink.Size = New System.Drawing.Size(251, 30)
+        Me.CreditLink.TabIndex = 8
+        Me.CreditLink.Text = "Original Made by Marco Sadowski " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+        Me.CreditLink.TextAlign = System.Drawing.ContentAlignment.TopCenter
         Me.CreditLink.Theme = MetroFramework.MetroThemeStyle.Dark
         Me.CreditLink.UseCustomBackColor = True
         Me.CreditLink.UseSelectable = True
@@ -147,7 +150,7 @@ Partial Class Settings
         Me.CreditsLink.Location = New System.Drawing.Point(183, 424)
         Me.CreditsLink.Name = "CreditsLink"
         Me.CreditsLink.Size = New System.Drawing.Size(115, 18)
-        Me.CreditsLink.TabIndex = 8
+        Me.CreditsLink.TabIndex = 4
         Me.CreditsLink.Text = "Credits and License"
         Me.CreditsLink.Theme = MetroFramework.MetroThemeStyle.Dark
         Me.CreditsLink.UseCustomBackColor = True
@@ -185,6 +188,8 @@ Partial Class Settings
         '
         'ReportLink
         '
+        Me.ReportLink.BackColor = System.Drawing.Color.Transparent
+        Me.ReportLink.ForeColor = System.Drawing.Color.Transparent
         Me.ReportLink.Location = New System.Drawing.Point(0, 424)
         Me.ReportLink.Name = "ReportLink"
         Me.ReportLink.Size = New System.Drawing.Size(88, 18)
@@ -254,7 +259,7 @@ Partial Class Settings
         Me.ExportSettingToggle.Size = New System.Drawing.Size(80, 17)
         Me.ExportSettingToggle.Style = MetroFramework.MetroColorStyle.Green
         Me.ExportSettingToggle.TabIndex = 14
-        Me.ExportSettingToggle.Text = "An"
+        Me.ExportSettingToggle.Text = "On"
         Me.ExportSettingToggle.Theme = MetroFramework.MetroThemeStyle.Dark
         Me.ExportSettingToggle.UseSelectable = True
         '
@@ -289,11 +294,21 @@ Partial Class Settings
         Me.ToolTips.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info
         Me.ToolTips.ToolTipTitle = "Info"
         '
+        'MetroButton1
+        '
+        Me.MetroButton1.Location = New System.Drawing.Point(111, 251)
+        Me.MetroButton1.Name = "MetroButton1"
+        Me.MetroButton1.Size = New System.Drawing.Size(75, 23)
+        Me.MetroButton1.TabIndex = 18
+        Me.MetroButton1.Text = "Hat-Kid-Play"
+        Me.MetroButton1.UseSelectable = True
+        '
         'Settings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(297, 441)
+        Me.Controls.Add(Me.MetroButton1)
         Me.Controls.Add(Me.CreditPanel)
         Me.Controls.Add(Me.StatusLabel)
         Me.Controls.Add(Me.ExportFolderBtn)
@@ -349,4 +364,5 @@ End Sub
     Friend WithEvents ExportFolderBtn As PictureBox
     Friend WithEvents StatusLabel As MetroFramework.Controls.MetroLabel
     Friend WithEvents ToolTips As ToolTip
+    Friend WithEvents MetroButton1 As MetroFramework.Controls.MetroButton
 End Class
