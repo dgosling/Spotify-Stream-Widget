@@ -34,11 +34,16 @@ Public Class Form1
         'Console.WriteLine("started timer")
     End Sub
     Public Sub Timerint(sender As Object, e As EventArgs) Handles Timer1.Tick
-        Dim cal As Decimal
+        Dim cal As Double
 
         cal = 60000 / Viewer._tempo
-        Timer1.Interval = Math.Round(cal / 15)
-        ' Console.WriteLine("set interval")
+        Dim interv As Integer = Math.Round(cal) / 15
+
+        If (interv <> Timer1.Interval) Then
+            Timer1.Interval = interv
+            Console.WriteLine("set interval")
+        End If
+
     End Sub
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
 
