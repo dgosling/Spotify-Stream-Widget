@@ -54,6 +54,7 @@ Partial Class Form1
         Me.Resizable = False
         Me.ShadowType = MetroFramework.Forms.MetroFormShadowType.None
         Me.Style = MetroFramework.MetroColorStyle.Green
+        Me.Text = "Dancin"
         Me.Theme = MetroFramework.MetroThemeStyle.Dark
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
